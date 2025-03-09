@@ -14,6 +14,7 @@ import SignUp from "./Components/SignUp";
 
 const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
 
+
 const App = () => {
   const [cart, setCart] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");

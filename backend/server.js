@@ -8,16 +8,16 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// ✅ Configure CORS to Allow Frontend Requests
+// ✅ Fix CORS to Allow Frontend
 app.use(
   cors({
     origin: "https://frontend-pjqsflfi9-piyush-sainis-projects.vercel.app",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true, // Allow cookies, authentication headers, etc.
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true,
   })
 );
 
-// ✅ Test Route (Fixes "Cannot GET /")
+// ✅ API Test Route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
