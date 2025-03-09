@@ -12,6 +12,8 @@ import MyOrders from "./Components/MyOrders";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 
+const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
+
 const App = () => {
   const [cart, setCart] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +21,7 @@ const App = () => {
 
   // ✅ Fetch Cart from MongoDB on Load
   useEffect(() => {
-    fetch("http://localhost:5000/api/cart")
+    fetch(`${API_BASE_URL}/cart`)
       .then((res) => res.json())
       .then((data) => setCart(data))
       .catch((error) => console.error("Error fetching cart:", error));
@@ -28,7 +30,7 @@ const App = () => {
   // ✅ Add to Cart (MongoDB)
   const addToCart = async (product) => {
     try {
-      const response = await fetch("http://localhost:5000/api/cart", {
+      const response = await fetch(`${API_BASE_URL}/cart`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: product._id }),
@@ -39,12 +41,10 @@ const App = () => {
         setCart((prevCart) => {
           const existingItem = prevCart.find((item) => item.productId._id === product._id);
           if (existingItem) {
-            // If the product already exists in the cart, update its quantity
             return prevCart.map((item) =>
               item.productId._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
             );
           } else {
-            // If the product is not in the cart, add it
             return [...prevCart, newCartItem];
           }
         });
@@ -58,10 +58,11 @@ const App = () => {
       console.error("Error adding to cart:", error);
     }
   };
+
   // ✅ Update item quantity in cart
   const updateQuantity = async (id, newQuantity) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/cart/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -83,8 +84,7 @@ const App = () => {
   // ✅ Remove Item from Cart (MongoDB)
   const removeItem = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${id}`, { method: "DELETE" });
-
+      const response = await fetch(`${API_BASE_URL}/cart/${id}`, { method: "DELETE" });
       if (response.ok) {
         setCart((prevCart) => prevCart.filter((item) => item._id !== id));
       } else {
@@ -98,8 +98,7 @@ const App = () => {
   // ✅ Clear Cart (MongoDB)
   const clearCart = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/cart", { method: "DELETE" });
-
+      const response = await fetch(`${API_BASE_URL}/cart`, { method: "DELETE" });
       if (response.ok) {
         setCart([]);
       } else {
@@ -114,7 +113,6 @@ const App = () => {
     <Router>
       <div className="flex flex-col min-h-screen bg-white">
         <Navbar cartCount={cart.length} onSearch={(query) => setSearchQuery(query)} />
-
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} searchQuery={searchQuery} />} />
@@ -128,14 +126,11 @@ const App = () => {
             <Route path="/SignUp" element={<SignUp />} />
           </Routes>
         </div>
-
-        {/* ✅ Popup Notification - Shows when item is added to cart */}
         {popupMessage && (
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-center animate-fadeIn">
             {popupMessage}
           </div>
         )}
-
         <Footer />
       </div>
     </Router>
