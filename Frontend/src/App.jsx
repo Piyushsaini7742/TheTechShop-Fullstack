@@ -33,18 +33,22 @@ const App = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: product._id }),
       });
-
+  
       if (response.ok) {
         const newCartItem = await response.json();
         setCart((prevCart) => {
           const existingItem = prevCart.find((item) => item.productId._id === product._id);
-          return existingItem
-            ? prevCart.map((item) =>
-                item.productId._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-              )
-            : [...prevCart, newCartItem];
+          if (existingItem) {
+            // If the product already exists in the cart, update its quantity
+            return prevCart.map((item) =>
+              item.productId._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+            );
+          } else {
+            // If the product is not in the cart, add it
+            return [...prevCart, newCartItem];
+          }
         });
-
+  
         setPopupMessage(`${product.name} added to cart!`);
         setTimeout(() => setPopupMessage(""), 3000);
       } else {
@@ -52,6 +56,27 @@ const App = () => {
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
+    }
+  };
+  // ✅ Update item quantity in cart
+  const updateQuantity = async (id, newQuantity) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/cart/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+
+      if (response.ok) {
+        const updatedItem = await response.json();
+        setCart((prevCart) =>
+          prevCart.map((item) => (item._id === id ? updatedItem : item))
+        );
+      } else {
+        console.error("Failed to update item quantity");
+      }
+    } catch (error) {
+      console.error("Error updating item quantity:", error);
     }
   };
 
@@ -93,7 +118,7 @@ const App = () => {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} searchQuery={searchQuery} />} />
-            <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} clearCart={clearCart} />} />
+            <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} clearCart={clearCart} updateQuantity={updateQuantity} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />

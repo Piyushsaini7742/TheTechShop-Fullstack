@@ -35,6 +35,26 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ✅ Update item quantity in cart
+router.put("/:id", async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const cartItem = await Cart.findByIdAndUpdate(
+      req.params.id,
+      { quantity },
+      { new: true }
+    ).populate("productId");
+
+    if (!cartItem) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    res.json(cartItem);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ✅ Remove a single item from cart (Safe check added)
 router.delete("/:id", async (req, res) => {
   try {

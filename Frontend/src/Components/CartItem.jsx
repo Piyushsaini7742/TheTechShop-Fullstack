@@ -1,7 +1,7 @@
 import React from "react";
 
 const CartItem = ({ item, updateQuantity, removeItem }) => {
-  if (!item.productId) return null; // ✅ Prevent rendering invalid items
+  if (!item.productId) return null; // Prevent rendering invalid items
 
   const product = item.productId;
   const productName = product.name || "Unknown Product";
@@ -17,10 +17,25 @@ const CartItem = ({ item, updateQuantity, removeItem }) => {
         <p className="text-black font-bold text-sm sm:text-base">Total: ₹{(productPrice * item.quantity).toFixed(2)}</p>
       </div>
       <div className="flex items-center mt-2 sm:mt-0">
-        <button onClick={() => updateQuantity(item._id, item.quantity - 1)} className="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300">-</button>
+        <button
+          onClick={() => updateQuantity(item._id, item.quantity - 1)}
+          className="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300"
+        >
+          -
+        </button>
         <span className="mx-2 text-lg">{item.quantity}</span>
-        <button onClick={() => updateQuantity(item._id, item.quantity + 1)} className="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300">+</button>
-        <button onClick={() => removeItem(item._id)} className="ml-4 bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700">Remove</button>
+        <button
+          onClick={() => updateQuantity(item._id, item.quantity + 1)}
+          className="bg-gray-200 text-black px-3 py-1 rounded-md hover:bg-gray-300"
+        >
+          +
+        </button>
+        <button
+          onClick={() => removeItem(item._id)}
+          className="ml-4 bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
+        >
+          Remove
+        </button>
       </div>
     </div>
   );
