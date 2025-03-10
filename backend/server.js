@@ -11,7 +11,7 @@ app.use(express.json());
 // ✅ Fix CORS to Allow Frontend
 app.use(
   cors({
-    origin: "https://frontend-pjqsflfi9-piyush-sainis-projects.vercel.app",
+    origin: "*", // Allow all origins (change to frontend URL for security)
     methods: "GET, POST, PUT, DELETE",
     credentials: true,
   })
