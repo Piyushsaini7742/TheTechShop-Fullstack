@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 
+const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
+
 const FeaturedProducts = ({ addToCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
 
-  // ✅ Fetch products from MongoDB
+  // ✅ Fetch products from backend
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API_BASE_URL}/products`)
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
   // ✅ Filter products based on search query
