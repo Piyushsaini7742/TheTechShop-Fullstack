@@ -9,9 +9,13 @@ const FeaturedProducts = ({ addToCart, searchQuery }) => {
   useEffect(() => {
     fetch(`${API_BASE_URL}/products`)
       .then((res) => res.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        console.log("Fetched products:", data); // Debugging
+        setProducts(data);
+      })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
+  
 
   // ✅ Filter products based on search query
   const filteredProducts = products.filter((product) =>
