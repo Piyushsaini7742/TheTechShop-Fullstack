@@ -18,6 +18,7 @@ const FeaturedProducts = ({ addToCart, searchQuery }) => {
   }, []);
   
   
+  
 
   // ✅ Filter products based on search query
   const filteredProducts = products.filter((product) =>

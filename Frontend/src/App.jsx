@@ -14,7 +14,6 @@ import SignUp from "./Components/SignUp";
 
 const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
 
-
 const App = () => {
   const [cart, setCart] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,11 +23,11 @@ const App = () => {
   useEffect(() => {
     fetch(`${API_BASE_URL}/cart`)
       .then((res) => res.json())
-      .then((data) => setCart(data))
+      .then(setCart)
       .catch((error) => console.error("Error fetching cart:", error));
   }, []);
 
-  // ✅ Add to Cart (MongoDB)
+  // ✅ Add to Cart
   const addToCart = async (product) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart`, {
@@ -36,20 +35,16 @@ const App = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: product._id }),
       });
-  
+
       if (response.ok) {
         const newCartItem = await response.json();
         setCart((prevCart) => {
-          const existingItem = prevCart.find((item) => item.productId._id === product._id);
-          if (existingItem) {
-            return prevCart.map((item) =>
-              item.productId._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-            );
-          } else {
-            return [...prevCart, newCartItem];
-          }
+          const exists = prevCart.find((item) => item.productId._id === product._id);
+          return exists
+            ? prevCart.map((item) => item.productId._id === product._id ? { ...item, quantity: item.quantity + 1 } : item)
+            : [...prevCart, newCartItem];
         });
-  
+
         setPopupMessage(`${product.name} added to cart!`);
         setTimeout(() => setPopupMessage(""), 3000);
       } else {
@@ -60,50 +55,44 @@ const App = () => {
     }
   };
 
-  // ✅ Update item quantity in cart
-  const updateQuantity = async (id, newQuantity) => {
+  // ✅ Update item quantity
+  const updateQuantity = async (id, quantity) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: newQuantity }),
+        body: JSON.stringify({ quantity }),
       });
 
       if (response.ok) {
         const updatedItem = await response.json();
-        setCart((prevCart) =>
-          prevCart.map((item) => (item._id === id ? updatedItem : item))
-        );
-      } else {
-        console.error("Failed to update item quantity");
+        setCart((prevCart) => prevCart.map((item) => (item._id === id ? updatedItem : item)));
       }
     } catch (error) {
       console.error("Error updating item quantity:", error);
     }
   };
 
-  // ✅ Remove Item from Cart (MongoDB)
+  // ✅ Remove Item from Cart
   const removeItem = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart/${id}`, { method: "DELETE" });
+
       if (response.ok) {
         setCart((prevCart) => prevCart.filter((item) => item._id !== id));
-      } else {
-        console.error("Failed to remove item from cart");
       }
     } catch (error) {
       console.error("Error removing item:", error);
     }
   };
 
-  // ✅ Clear Cart (MongoDB)
+  // ✅ Clear Cart
   const clearCart = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart`, { method: "DELETE" });
+
       if (response.ok) {
         setCart([]);
-      } else {
-        console.error("Failed to clear cart");
       }
     } catch (error) {
       console.error("Error clearing cart:", error);
@@ -113,7 +102,7 @@ const App = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-white">
-        <Navbar cartCount={cart.length} onSearch={(query) => setSearchQuery(query)} />
+        <Navbar cartCount={cart.length} onSearch={setSearchQuery} />
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home addToCart={addToCart} searchQuery={searchQuery} />} />
@@ -124,9 +113,11 @@ const App = () => {
             <Route path="/offers" element={<Offers />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </div>
+
+        {/* Popup Message for Cart */}
         {popupMessage && (
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-center animate-fadeIn">
             {popupMessage}

@@ -2,21 +2,26 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
 
-
-// Get all products
+// ✅ Get all products
 router.get("/", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Add products manually (ONLY RUN ONCE)
+// ✅ Add products manually (ONLY RUN ONCE)
 router.post("/add", async (req, res) => {
   const sampleProducts = [
-    { name: "Laptop", price: 50000, image: "laptop.jpg" },
-    { name: "Mouse", price: 1000, image: "mouse.jpg" },
-    { name: "Keyboard", price: 2000, image: "keyboard.jpg" },
+    {
+      name: "RGB Gaming Mechanical Keyboard",
+      price: 2850,
+      description: "High-quality mechanical keyboard with RGB lighting.",
+      image: "https://imgs.search.brave.com/qaOcVuKdtr9uMwXJgLFIJMsYBnIrMu0vsrFMZxta_Xk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDgwOTI3/MDUuanBn",
+    },
   ];
-
   await Product.insertMany(sampleProducts);
   res.json({ message: "Products added!" });
 });
