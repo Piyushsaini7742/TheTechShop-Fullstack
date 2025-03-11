@@ -6,7 +6,6 @@ const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
 const FeaturedProducts = ({ addToCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
 
-  // ✅ Fetch products from backend
   useEffect(() => {
     fetch(`${API_BASE_URL}/products`)
       .then((res) => res.json())
@@ -17,10 +16,6 @@ const FeaturedProducts = ({ addToCart, searchQuery }) => {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
   
-  
-  
-
-  // ✅ Filter products based on search query
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -31,7 +26,7 @@ const FeaturedProducts = ({ addToCart, searchQuery }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.map((product) => (
           <div
-            key={product._id} // ✅ Use MongoDB ID instead of `id`
+            key={product._id}
             className="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:scale-105 transition duration-300"
           >
             <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />

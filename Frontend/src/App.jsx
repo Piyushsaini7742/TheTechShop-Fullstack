@@ -19,7 +19,6 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
 
-  // ✅ Fetch Cart from MongoDB on Load
   useEffect(() => {
     fetch(`${API_BASE_URL}/cart`)
       .then((res) => res.json())
@@ -27,7 +26,6 @@ const App = () => {
       .catch((error) => console.error("Error fetching cart:", error));
   }, []);
 
-  // ✅ Add to Cart
   const addToCart = async (product) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart`, {
@@ -55,7 +53,6 @@ const App = () => {
     }
   };
 
-  // ✅ Update item quantity
   const updateQuantity = async (id, quantity) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart/${id}`, {
@@ -73,7 +70,6 @@ const App = () => {
     }
   };
 
-  // ✅ Remove Item from Cart
   const removeItem = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart/${id}`, { method: "DELETE" });
@@ -86,7 +82,6 @@ const App = () => {
     }
   };
 
-  // ✅ Clear Cart
   const clearCart = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/cart`, { method: "DELETE" });
@@ -117,7 +112,6 @@ const App = () => {
           </Routes>
         </div>
 
-        {/* Popup Message for Cart */}
         {popupMessage && (
           <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-center animate-fadeIn">
             {popupMessage}

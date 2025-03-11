@@ -1,7 +1,7 @@
 import React from "react";
 
 const CartItem = ({ item, updateQuantity, removeItem }) => {
-  if (!item.productId) return null; // Prevent rendering invalid items
+  if (!item.productId) return null;
 
   const product = item.productId;
   const productName = product.name || "Unknown Product";

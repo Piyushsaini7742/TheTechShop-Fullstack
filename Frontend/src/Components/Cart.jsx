@@ -2,13 +2,11 @@ import React from "react";
 import CartItem from "./CartItem";
 
 const Cart = ({ cart, removeItem, clearCart, updateQuantity }) => {
-  // Calculate total price
   const totalPrice = cart.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
 
-  // Apply a random 15% discount
   const discount = totalPrice * 0.15;
-  const platformFee = 3; // Fixed platform fee
-  const deliveryCharges = 0; // Free delivery
+  const platformFee = 3;
+  const deliveryCharges = 0;
   const finalPrice = totalPrice - discount + platformFee + deliveryCharges;
 
   return (
@@ -25,7 +23,6 @@ const Cart = ({ cart, removeItem, clearCart, updateQuantity }) => {
             <CartItem key={item._id} item={item} removeItem={removeItem} updateQuantity={updateQuantity} />
           ))}
 
-          {/* Price Details */}
           <div className="bg-white shadow-md rounded-lg p-4 mt-4">
             <p className="text-gray-800 font-bold text-lg mb-4">Price Details</p>
 
@@ -51,7 +48,6 @@ const Cart = ({ cart, removeItem, clearCart, updateQuantity }) => {
             </p>
           </div>
 
-          {/* Buttons */}
           <div className="mt-4 space-y-2">
             <button
               onClick={clearCart}

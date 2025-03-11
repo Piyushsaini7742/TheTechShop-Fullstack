@@ -5,8 +5,8 @@ const SearchBar = ({ onSearch }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent form submission
-      onSearch(query); // Trigger search
+      e.preventDefault();
+      onSearch(query);
     }
   };
 
