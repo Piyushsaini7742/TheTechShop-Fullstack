@@ -12,7 +12,7 @@ import MyOrders from "./Components/MyOrders";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 
-const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const App = () => {
   const [cart, setCart] = useState([]);
