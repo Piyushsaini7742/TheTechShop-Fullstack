@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
+
 
 const FeaturedProducts = ({ addToCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/products`)
+    fetch("https://thetechshop-frontend-backend.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched products:", data);
