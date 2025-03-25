@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
-
 const FeaturedProducts = ({ addToCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
 
