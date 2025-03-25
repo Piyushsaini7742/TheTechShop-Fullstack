@@ -10,7 +10,7 @@ const Cart = ({ cart, removeItem, clearCart, updateQuantity }) => {
   const finalPrice = totalPrice - discount + platformFee + deliveryCharges;
 
   return (
-    <div className="container mx-auto p-4 w-full max-w-3xl bg-gray-100 min-h-screen">
+    <div className="container mx-auto p-4 w-Full max-w-3xl bg-gray-100 min-h-screen">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 text-left bg-white p-4 shadow-md rounded-md">
         Your Cart
       </h2>

@@ -11,8 +11,10 @@ import Blog from "./Components/Blog";
 import MyOrders from "./Components/MyOrders";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
+import "./App.css";
+import "./index.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
 
 const App = () => {
   const [cart, setCart] = useState([]);
@@ -95,31 +97,29 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen bg-white">
-        <Navbar cartCount={cart.length} onSearch={setSearchQuery} />
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home addToCart={addToCart} searchQuery={searchQuery} />} />
-            <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} clearCart={clearCart} updateQuantity={updateQuantity} />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/offers" element={<Offers />} />
-            <Route path="/myorders" element={<MyOrders />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
-        </div>
+    <div className="flex flex-col min-h-screen bg-white">
+    <Navbar cartCount={cart.length} onSearch={setSearchQuery} />
+    <div className="flex-grow">
+      <Routes>
+        <Route path="/" element={<Home addToCart={addToCart} searchQuery={searchQuery} />} />
+        <Route path="/cart" element={<Cart cart={cart} removeItem={removeItem} clearCart={clearCart} updateQuantity={updateQuantity} />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="/myorders" element={<MyOrders />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </div>
 
-        {popupMessage && (
-          <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-center animate-fadeIn">
-            {popupMessage}
-          </div>
-        )}
-        <Footer />
+    {popupMessage && (
+      <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg text-center animate-fadeIn">
+        {popupMessage}
       </div>
-    </Router>
+    )}
+    <Footer />
+  </div>
   );
 };
 

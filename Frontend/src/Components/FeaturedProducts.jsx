@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
 
-
 const FeaturedProducts = ({ addToCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
 
