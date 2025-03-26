@@ -11,7 +11,6 @@ import Blog from "./Components/Blog";
 import MyOrders from "./Components/MyOrders";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
-import "./App.css";
 import "./index.css";
 
 const API_BASE_URL = "https://thetechshop-frontend-backend.onrender.com/api";
